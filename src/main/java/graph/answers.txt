@@ -1,0 +1,183 @@
+CSE 331 Homework.  Answers to written questions.
+Edit this file to supply your answers.
+
+Name:  <Alexis Macaskill>
+
+Problem 1. (Written exercises)
+
+(a)
+
+IntQueue1: normal queue
+
+    Abstraction Function:
+        The front of queue = the 1st entry in the queue = entries.get(0)
+        ...
+        The Nth entry in the queue = entries.get(N-1)
+        ...
+        The last entry in the queue = entries.get(entries.size() - 1)
+
+    RepInvariant:
+        entries != null &&
+        forall i such that (0 <= i < entries.size()), entries.get(i) != null
+
+
+
+IntQueue 2: circular queue
+
+    Abstraction Function:
+        Let front = the index the front pointer points to and
+            capacity = entries.length
+            size = number of entries in the queue
+
+        The first entry in the queue = the first entry in the queue = entries.get(front)
+        ...
+        The Nth entry in the queue = entries[(front + N - 1) % capacity)
+        ...
+        The last entry in the queue = entries.get((front + size - 1) % capacity,
+
+
+    RepInvariant: kind of what tells us what input values to put in abstraction function is valid, valid domain
+        entries != null &&
+        forall i such that (0 <= i < size), entries[i]!= null) && front >= 0 && size >= 0
+        front < entries.length
+
+(b)
+
+a = d = g
+c = f
+b = h
+
+(c)
+
+For these problems, I am assuming that exposing the representation means that the client can change the representation
+of the object.
+
+1. public int solveEquations(int x, int y, int z)
+This method cannot expose the representation because it just takes and returns a primitive int value, not a reference
+to a mutable data type. For primitives, all of their attributes are fully determined by their identity: 1 is always 1
+and 2 is always 2.
+
+2. public String[] decode(boolean slowly)
+Assuming this method does not return an unmodifiableList, doesn't return a copy of the original array, and doesn't
+return zero length array, this method could expose the representation because nonzero length arrays are mutable.
+
+3. private Date myBirthday()
+Since the myBirthday() method is private, clients cannot clients cannot obtain reference to these Date objects.
+So even if myBirthday doesn't create and return a new Date instance rather than modifying this instance
+and assuming Date is a mutable class in java, then this method still cannot can expose the representation.
+
+4. public String toString()
+Strings are immutable so cannot expose the representation.
+
+5. public Iterator<Integer> elements()
+This method can expose the representation because iterators allow the caller to remove elements from the underlying
+collection during the iteration.
+
+6. public Deck(List<Card> cards)
+Assuming that Deck's List<Card> field, cards, is not private and final, then this constructor could exposing
+the representation because then the client could add more Card's to the cards field.
+
+Problem 2.  (Graph interface/operations)
+
+My design includes two classes, DirectedGraph and DirectedLabeledEdge. Within the DirectedGraph class, my
+specification fields are the graphs set of nodes and set of edges. I considered making a Node class, but
+decided against it because for this part of the assignment, the data in the nodes are stored as Strings and
+are uniquely identifiable by the String; therefore, it doesn't make sense to make a whole Node class. I made
+a DirectedGraph instead of a DirectedLabeledGraph because the edges contain the labels. I made
+a DirectedLabeledEdge class because each edge consists of an ordered pair of nodes and a label, so this class can
+help group these three String instance fields. This grouping is useful because now DirectedGraph's
+listChildren method can return set of DirectedLabeledEdges and it's removeEdge can return the DirectedLabeledEdge
+that was removed. Returning DirectedLabeledEdges allows these methods to return several data fields, which the
+client might want, so this is helpful since Java only lets you return one value from a method.
+
+DirectedGraph operations:
+I included addNode and addEdge operations because the client could want to add nodes/edges and they both
+return a boolean so the client can know if it was added successfully. If the client wanted to build a
+graph to find routes across campus, as new buildings built, the client would want to be able to add
+new nodes(buildings) and edges(paths to get to these new buildings) to the graph. I also included
+removeNode and removeEdge because the client could want to remove a node(a building) or an edge(a path)
+from their campus map. The removeNode and removeEdge operations return the node/edge that was removed
+because the client might want to do something with the information in these removed nodes/edges.
+I considered including a hasNode and hasEdge method since I don't want the graph to add identical
+nodes and identical edges, but since I made the specification fields a set of nodes and a set of edges,
+the set takes of guaranteeing that the every node and edge in each set is unique. Therefore hasEdge and
+hasNode are not operations the client needs. I included a listNodes operation that returns a set of
+the the graph's nodes because I think the client would want this information. For example, if Delta
+airlines wanted to display all the different airports that they fly in and out of. I also included
+listChildren operation because I think the client might want this maybe to compare two different
+parentNode's child nodes to see which node has more.
+
+DirectedLabeledEdge operations:
+I included getDest because operation because for DirectedGraph's method listChildren
+returns a set of DirectedLabeledEdges  and the client might want to do something with
+the dest nodes of the edges. For example, Delta Airlines could want to list all
+the flight destinations(dest nodes) departing out of Seattle. I included a getLabel
+method because for for listChildren method again, for example Delta Airlines could
+also want the the flight duration of each flight (each edge's label). I almost
+didn't include a getSrc method because in the DirectedGraph class the only time
+only time you can get a set of edges is from the listChildren method which takes
+the src node (parentNode) as a parameter and the removeEdge method. But for the
+removeEdge method, to get that edge in the first place, the client either had to
+construct it them self and in that case they they would have to pass the src node
+into the constructor or they had to get it from the set of edges returned by
+listChildren which takes the src node as a parameter. However, I decided to
+include it because the client might do a lot of computation or manipulation
+with these edges and lose the parentNode parameter in the process, so it is
+nice to include the getSrc so the client doesn't have to worry about keeping
+track of the parent node. I included an equals method because I think the client
+will want to test if Edges are equivalent depending on their src, dest, and
+label data. Since I am overriding the equals method, I also included a hashCode
+operation because it is important that this new definition of equivalence
+that my equals method is enforcing is going to be reflected in hashCodes;
+it is very important for DirectedLabeledEdges that satisfy my equivalence,
+return the same hashCode.
+
+
+Problem 3.  (Testing strategy)
+
+My specification tests test that listNodes returns the nodes in alphabetical order and that
+listEdges returns the edges in alphabetical order when the returns the nodes in alphabetical
+order when they are added to the graph in reverse order. I did not include any tests for
+alphabetical sorting in the implementation tests. The reason I included alphabetical sorting
+in the specification tests is because the specification tests need to be valid tests for any
+students solution to the assignment. Since specification tests should pass on everyone's code
+base, there needs to be a specific order to be able to check the results. When the spec tests
+are actually implemented in the next part by actually adding code to the supplied test harness,
+ then that is the place where the output needs to be produced in order, but in the graph itself
+and in the test design, as opposed to the implementation, the ordering isn't an issue that should
+be considered.
+
+My implementation tests include tests that check that an IllegalArgumentException is thrown
+in cases such as adding a node or edge that is null, removing a node or edge that is null,
+and in the case when listing the outbound edges of a node that is null or that doesn't exist
+in the graph. My implementation tests test your specific implementation. Although I expect for
+an exception to be thrown in this situation, other students may choose to handle these cases
+differently so therefore I cannot test these cases as part of my specification tests. My
+implementation tests also include tests for the remove node/edge operation while my
+specification tests did not. This is because adding those operations were design choices
+that I made and therefore are not testable as part of specification tests. My implementation
+tests also included tests to make sure my graph performed correctly when trying to add an edge
+that already exists and trying to add a node that already exists. These tests are not included
+in the tests because the specification does not define how the graph should behave under these
+circumstances; therefore, there is no way that there can be a test that would pass on everyone's
+ code base because everyone could choose to handle it differently. Any specification test input
+ that would create that undefined situation is an incorrect test and there is no obligation to
+ handle it in any way, but I did handle it in my implementation tests because my graph will do
+ something specific to handle
+each case.
+
+I used the "0,1,2" case analysis for the most part to design my test suite. For each method
+in my graph class, I tested each method starting with 0 nodes 0 edges, then 1 node 0 edges,
+1 node 1 edge, 1 node 2 edges, 2 nodes 0 edges, 2 nodes 1 edge, and 2 nodes 2 edges. After
+that I added in tests for each method if a null was involved. So for example I tested
+add/remove node with a null, add/remove edge with a null, and list children of null.
+After that I realized that I forgot to add in tests for not defined behavior: trying to add
+an edge that already exists, and trying to add a node that already exists. So I went back
+and added these undefined behaviors to their appropriate sections of the the 0, 1, 2
+analysis. My tests for my DirectedLabeledEdge class did not follow the 0, 1, 2 case analysis
+ because it just tested one edge. So in the edge class I first tested the constructor and
+ these tests included testing that the constructor threw the right exception if any one of
+  the parameters were null. I then just went through each method in the class and tested
+  if the method returned by the getter method matched the constant variable edge that I made
+  at the top of the file.
+

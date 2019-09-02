@@ -1,0 +1,12 @@
+# Test the parser on a file that contains two heros in the same book
+
+# Load a graph from tsv file that contains two heros in the same book
+LoadGraph twoHerosSameBook twoHerosSameBookNew.tsv
+
+# Print the heros in the graph
+ListNodes twoHerosSameBook
+
+# Print the outgoing edges from hero 1
+ListChildren twoHerosSameBook hero_1
+# Print the outgoing edges from hero 2
+ListChildren twoHerosSameBook hero_2

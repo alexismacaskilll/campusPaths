@@ -1,0 +1,19 @@
+# Tests adding edges to a graph in reverse alphabetical order,  first by node name and then in reverse alphabetical order by label, and printing the children out in alphabetical order.
+
+# Create a graph
+created graph graph1
+
+# Add a node to the graph
+added node n1 to graph1
+# Add a node to the graph
+added node n2 to graph1
+
+# Add an edge to the graph
+added edge label from n1 to n2 in graph1
+# Add an edge to the graph
+added edge label1 from n1 to n2 in graph1
+# Add a self edge to the graph
+added edge label2 from n1 to n1 in graph1
+
+# Print the outgoing edges from n1
+the children of n1 in graph1 are: n1(label2) n2(label) n2(label1)

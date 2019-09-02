@@ -1,0 +1,67 @@
+CSE 331 Homework 3.  Answers to Written questions.
+Edit this file to supply your answers.
+
+Name:  <Alexis Macaskill>
+
+Problem 6.
+
+6.1:
+The getFibTerm() method in Fibonacci says that it throws IllegalArgumentException if the argument passed in, n, is not a nonnegative
+number. A nonnegative number is either 0 or any positive number. Initially the if statement in getFibTerm threw the exception if n<=0,
+but 0 is also nonnegative, so I changed this to throw the exception when n < 0.
+
+6.2:
+
+Before I fixed anything, the base case test was failing. But once I fixed n < 0 for the IllegalArgumentException, the base case test
+passed as well. This must be because the baseCase test tests 0 and 1 and 0 and 1 are both nonnegative numbers and 0 was not being
+recognized as a nonnegative number until I changed it from n <= 0 to n < 1.
+
+6.3:
+To fix this, I changed n <= 2 to n < 2 and I changed getFibTerm(n - 1) - getFibTerm(n - 2) to a plus, getFibTerm(n - 1) + getFibTerm(n - 2).
+I changed from a subtraction to a multiplication because the Fibonacci sequence is the integer sequence in which every number, after the
+first two integers, 0 and 1, is the sum of the two preceding numbers. I changed it from n<=2 to n < 2 because besides 0 and 1, the
+in the number in the sequence is the sum of first two preceding numbers including two so it has to be n < 2.
+
+***testInductiveCase failed because Fibonacci returned 1 for n=2
+
+
+Problem 7
+
+7.1:
+There were two problems wrong with Ball.java. The first was that the volume argument to the Ball constructor shadowed the object's
+volume field because they were both spelled the exact same way, 'volume.' Because of this shadowing, the 'volume' in the 'volume = '
+ was just referring to a local copy of the constructor's volume argument. To fix this constructor to assign the volume argument to
+ the volume field of the the current Ball object, I changed it to say 'this.volume = volume.' The second problem was that the getVolume
+ method returned 0 instead of the Ball object's volume, so I changed return 0 to return volume.
+
+7.2:
+I think keeping track of the total volume of the balls along the way as each ball is added and removed is better than going through all the
+balls in the set and summing up the total volume every time getVolume() is called. The ball containers could end up containing thousands of
+balls, so iterating through thousands of balls everytime you want to add or remove one would not have a very good runtime. Although adding
+ the computation to add/remove the volume in the add/remove calls would take more time, this is a constant amount of time and keeping another
+  totalVolume field is a constant amount of space, meanwhile summing up all the volumes everytime would take O(N) runntime where N is the number
+  of balls in the set. O(1) is much better than O(N).
+
+7.3:
+7.3.1:
+One way you can implement getBallsFromSmallest(), the way I implemented it, is by creating a second class called ballsCompare, which implements
+comparator. Then within this ballsCompare class, I wrote the compare method so that the balls can be sorted in ascending size order. Then within
+the getBallsFromSmallest() method, I referred to the java doc for TreeSet and found a TreeSet constructor that takes constructs a new, empty tree
+ set, sorted according to the specified comparator. So in my case I passed a new ballsCompare() comparator. Then I just used the BallContainer's
+ iterator to traverse over each ball in the box and add each one to the TreeSet since the TreeSet sorts them. Then I referred to TreeSet's java doc
+ and found that TreeSet has a method called iterator() that returns an iterator over all the elements in the TreeSet in ascending order. A second
+ way that you could implement getBallsFromSmallest() that differs in the implementation of Box is that you could create a TreeSet using the constructor
+ that constructs a new TreeSet, sorted according to the specified comparator, but this time the TreeSet is stored in another field like I choose to do
+ with the total volume in the ballContainer. So you could have the TreeSet be another field so that everytime you add or remove a ball, you add and remove
+ it from the TreeSet similar to how we added and removed the volumes from the totalVolume everytime we added and removed a ball from the ballContainer.
+ Then the getBallsFromSmallest() method would just have to return the TreeSet's iterator() method, which returns an iterator over all the elements in the
+ TreeSet in ascending order.
+ 7.3.2:
+ I think the first implementation, the one that I implemented, is the better implementation. Although adding another field and constantly keeping track of
+ the total volume was probably better in the BallContainer class, adding and subtracting from the totalVolume was a constant time operation. On the other
+ hand, adding and removing elements from a TreeSet are both Olog(N) operation's. Both implementations stated in 7.3.1 will be using add and remove operations
+  from the TreeSet, which are both Olog(N) operations; however, I think it would be unlikely that everytime someone adds a ball to the box or removes a ball
+  that they would want to see the balls in ascending order each time. I think they would add or remove a lot of balls in between each call to
+  getBallsFromSmallest(), so for that reason I think keeping the add and remove operations as constant time by keeping them in the ballContainer Set field
+  and then just adding all the balls a new TreeSet each time getBallsFromSmallest() is called, the first implementation (the one I implemented), is the better
+  implementation.

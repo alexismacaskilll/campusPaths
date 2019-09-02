@@ -1,0 +1,8 @@
+# Test the Find Path from src node to dest node where src node is not in the graph.
+
+# Load a graph from tsv file that contains two heros in same book and one hero in a
+# different book.
+loaded graph graph1
+
+# Find shortest path from hero4 to hero1
+unknown character hero4

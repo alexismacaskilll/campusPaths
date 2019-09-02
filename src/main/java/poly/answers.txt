@@ -1,0 +1,186 @@
+CSE 331 Homework 4.  Answers to written questions.
+Edit this file to supply your answers.
+
+Name:  <Alexis Macaskill>
+
+Problem 0.
+
+LI  = loop invariant
+OLI = outer loop invariant
+ILI = inner loop invariant
+
+(a)
+
+r = p * q:
+    set r = 0.
+    {OLI: r + ((p_0 + ... p_i-1) * q) = p * q, where p_i is the ith term in p}
+    foreach term, t_p, in p:
+        {INI: r + (t_p * (q_0...q_j-1)) = (p_0...p_i) * q, where q_j is the jth term in p}
+        foreach term, t_q in q:
+            if, any term, t_r, has the same degree as (degree of t_p + degree of t_q),
+                then replace t_r in r with t_r + (t_p * t_r).
+                else insert (t_p * t_r) into r as a new term.
+
+
+(b)
+
+Need to define polynomial subtraction because I use it in my division:
+r = q - p:
+    set r = q by making a term-by-term copy of all terms in q to r
+    {Inv: r = q - p_0 - p_1 - ... - p_i-1, where p_i is the ith term in p}
+    foreach term, t_p, in p:
+        if any term, tr, in r has the same degree as t_p,
+            then replace t_r in r with t_p - t_r
+            else insert (t_p * -1) into r as a new term
+
+
+q = u / v:
+    r = u
+    q = 0
+    {LI: r + ( (q_0 + ... q_i-1) * v ) = u, where q_i is the quotient polynomial after the ith iteration of the loop }
+    while (r != 0 and degree of r >= degree of v ) {
+        a = r's highest order term's coefficient / v's highest order term's coefficient
+        b = r's highest order term's degree - v's highest order term's degree
+        p = term with coefficient a and degree b.
+        q = q + p
+        r = r - ( p * v )
+    }
+    {LI Λ (r = 0 or (degree of r < degree of v )}
+
+(c)
+
+q = u / v:
+
+v = x + 1
+u = x^3 + x - 1
+r = copy of u = x^3 + x - 1
+q = 0
+{LI: r + ( (q_0 + ... q_i-1) * v ) = u, where q_i is the quotient polynomial after the ith iteration of the loop }
+while (r != 0 and degree of r >= degree of v ) {
+    Iteration 1: r = x^3+x-1, q = 0, u = x^3+x-1, v = x+1
+        [a = r's highest order term's coefficient / v's highest order term's coefficient] a = 1/1 = 1
+        [b = r's highest order term's degree - v's highest order term's degree] b = 3 - 1 = 2
+        [p = term with coefficient a and degree b.] p = 1x^2 = x^2
+        [q = q + p] q = 0 + x^2 = x^2
+        [r = r - ( p * v)] r = (x^3+x-1) - (x^2 * (x+1)) = (x^3+x-1) - (x^3+x^2) = -x^2+x-1
+    Iteration 2: r = -x^2+x-1, q = x^2, u = x^3+x-1, v = x+1
+        [a = r's highest order term's coefficient / v's highest order term's coefficient] a = -1/1 = -1
+        [b = r's highest order term's degree - v's highest order term's degree] b = 2 - 1 = 1
+        [p = term with coefficient a and degree b.] p = -1x^1 = -x
+        [q = q + p] q = x^2 + -x = x^2 - x
+        [r = r - ( p * v)] r = (-x^2+x-1) - ((-x) * (x+1)) = (-x^2+x-1) - (-x^2-x) = 2x - 1
+    Iteration 3: r = 2x - 1, q = x^2 - x, u = x^3+x-1, v = x+1
+        [a = r's highest order term's coefficient / v's highest order term's coefficient] a = 2/1 = 2
+        [b = r's highest order term's degree - v's highest order term's degree] b = 1 - 1 = 0
+        [p = term with coefficient a and degree b.] p = 2x^0 = 2
+        [q = q + p] q = x^2 - x + 2
+        [r = r - ( p * v)] r = (2x - 1) - (2 * (x+1)) = (2x - 1) - (2x + 2) = -3
+}
+{LI: r + ( (q_0 + ... q_i-1) * v ) = u }
+=> {-3 + (x^2-x+2)(x+1) = x^3+x-1 }
+=> {-3 + (x^3-x^2+2x+x^2-x+2) = x^3+x-1 }
+=> {-3 + (x^3+x+2) = x^3+x-1 }
+=> {x^3+x-1 = x^3+x-1 }
+{x^3+x-1 } Λ (degree of r < degree of v}
+
+We are done! q = x^2 - x + 2
+
+
+Problem 1.
+
+(a)
+The RatNum constructor with two arguments, n and d, becomes more efficient going from logarithmic
+runtime to O(1) because you no longer have to call the gcd method in the constructor. The hashcode
+and equals function will become less efficient, from O(1) to logarithmic, because we need to add
+calls to the gcd method because the RatNum needs to be reduced form so that equivalent RatNum's will
+map to the same hashcode and will return true from the equals function. The toString
+method will also becomes less efficient, from O(1) to logarithmic, because we need to add calls to
+the gcd method so that the toString method will return a String of the RatNum in reduced form.
+
+(b)
+The RatNum class is an immutable class meaning that an instance of the class, a RatNum, stays in
+exactly one state, the state in which it was created for the lifetime of that RatNum object.
+Changing the last line of the add, sub, mul, and div is failing to meet this requirement because
+now the methods are applying a procedure to their operand, causing its state to change. To satisfy
+the specifications of the methods and of the RatNum class, the methods must return the result of
+applying a function to their operand, without modifying it.
+
+*Additionally, violates the @modifies of the method spec.
+
+(c)
+Since the RatNum class is immutable, a RatNum object's state can be in exactly one state, the state
+ in which it was created; therefore, it is only necessary to check the rep invariant immediately after
+ construction because if it holds then, then it is guaranteed that the invariant will hold true for
+ all time. Since the RatNum object's state never changes, there is no possibility of a temporary
+ inconsistency. Furthermore, since methods cannot change RatNum's at all, each distinct value requires
+ a separate object which often times can be a disadvantage, but it insures immutability.
+
+* No mention of the "final" keyword to guarantee immutability by the java compiler.
+
+
+Problem 2.
+
+(a)
+I only put checkRep at the end of the RatTerm constructor because the RatTerm class is immutable
+meaning that after an instance of a RatTerm is constructed, no other method is allowed to modify
+that RatTerm's coefficient or exponent. To satisfy the immutability requirement of the RatTerm
+class and method specifications, the other methods I wrote just return the result of applying a
+function to their operand, without modifying the RatTerm's coeff or expt. Therefore, the only
+time it is necessary to check the rep invariant is immediately after construction because if
+it holds then, then it is guaranteed that it will hold true for the life of that instance.
+
+
+(b)
+I would change the isZero() method to check only for the 0 in the coefficient by returning true if
+coeff.negate() equals coeff. This change is less efficient and just less clear because it has to call
+negate in addition to equals. The toString() method will also change to become less efficient because
+we have to add an additional if check to isZero() before the check isNegative in the toString() method
+so that we don't have any terms like 0x^7 in the String.
+
+*Weakening the rep invariant to not require RatTerms with zero coefficients to have zero exponents
+ will also cause changes in checkRep, equals, getExpt, and hashCode.
+
+(c)
+The constructor implementation of RatTerm would have an additional check for isNaN() then set the
+exponent to 0 if true, so that this is equal to the RatTerm.NaN. I think this makes the code more
+clear and efficient because now within all the methods, we can just return RatPoly's instance
+variable NaN (since RatPoly's are immutable) instead of always creating a new RatNum object with
+NaN as coefficient and this.expt as the exponent. I prefer both invariants because it makes the
+code clearer because it prevents terms that don't make sense, like 0x^7 and NaN*x^74 from being
+ returned from the add, mult, div, and other methods that return RatTerms and it is more space
+ efficient because we can reuse the ZERO and NaN RatTerm instances instead of always creating new objects.
+
+*Additionally, changes to checkRep would need to be made to reflect this new representation invariant.
+
+
+Problem 3.
+(a)
+I only put checkRep at the end of the RatPoly constructor because the RatPoly class is immutable
+meaning that after an instance of a RatPoly is constructed, no other method is allowed to modify
+that RatPoly's state. The rep invariant is not necessary in the methods because these methods just
+ return the result of applying a function to their operand, without modifying the contents of
+ this.terms.
+
+
+(b)
+The disadvantage would be that every time you wanted to execute the add, subtract, multiply, or any
+method that returns a RatPoly you would have to iterate through both lists and create new RatTerms,
+then add all of the RatTerms to a new ArrayList, which then you could construct a new RatPoly with.
+This makes you more error prone as the RatPoly class extends to include more such methods when you have
+ to keep the unrelated task of reconstructing all the RatTerms from scratch and worrying about
+ keeping both lists sorted in descending exponent order at the same time as implementing
+ the new methods. I think representing RatPoly by using a list of RatTerms is better because then you
+ keeping the RatPoly's rep invariant satisfied is less expensive because you only need to worry about
+ one list for the sorted insert method.
+
+ *No advantage listed.
+
+Problem 5.
+
+x^8+6
+x^2+x+8
+x^2
+-x+3
+
+
+

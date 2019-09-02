@@ -1,0 +1,10 @@
+# Test the BFS picks alphabetically least path on a file that lists the heros and books
+# in reverse alphabetical order
+
+# Load a graph from tsv file that contains heros and comics in reverse alphabetical order.
+loaded graph graph1
+
+# Find shortest path from hero 1 to hero 4
+path from hero 1 to hero 4:
+hero 1 to hero 2 via book 1
+hero 2 to hero 4 via book 3

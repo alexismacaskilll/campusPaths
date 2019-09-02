@@ -1,0 +1,8 @@
+# Test the Find Path from src node to dest node where src node is not in the graph.
+
+# Load a graph from tsv file that contains two heros in same book and one hero in a
+# different book.
+LoadGraph graph1 threeHerosTwoBooksNew.tsv
+
+# Find shortest path from hero 4 to hero 1
+FindPath graph1 hero_4 hero_1

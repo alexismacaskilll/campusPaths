@@ -1,0 +1,7 @@
+# Test the parser on a file that is empty
+
+# Load a graph from empty tsv file
+loaded graph emptyGraph
+
+# Print the heros in the graph
+emptyGraph contains:

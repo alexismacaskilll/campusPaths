@@ -1,0 +1,8 @@
+# Test the parser on a file that is empty
+
+# Load a graph from empty tsv file
+loaded graph emptyGraph
+
+# Find shortest path from hero1 to hero2
+unknown character hero1
+unknown character hero2

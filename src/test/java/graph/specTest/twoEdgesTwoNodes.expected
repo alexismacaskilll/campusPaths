@@ -1,0 +1,19 @@
+# Tests that a two edges can be added to a graph of two nodes
+
+# Create a graph
+created graph graph1
+
+# Add a node to the graph
+added node n1 to graph1
+# Add a node to the graph
+added node n2 to graph1
+
+# Add an edge to the graph
+added edge label1 from n1 to n2 in graph1
+# Add an edge to the graph
+added edge label2 from n2 to n1 in graph1
+
+# Print the outgoing edges from n1
+the children of n1 in graph1 are: n2(label1)
+# Print the outgoing edges from n2
+the children of n2 in graph1 are: n1(label2)

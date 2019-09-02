@@ -1,0 +1,13 @@
+CSE 331 Homework.  Answers to written questions.
+Edit this file to supply your answers.
+
+Name:  <Alexis Macaskill>
+
+Briefly describe any changes made to your Graph ADT from HW 3-4 and why
+those changes were made below.  (See the HW6 assignment for details.)
+
+- I added a containsEdge and containsNode method to my graph ADT. I added these methods because
+for the find Path method, I throw an Illegal Argument Exception if the starting node and/or
+ending node is not contained in the graph, so having this method would be useful. I added spec
+tests and implementation tests for these new methods.
+

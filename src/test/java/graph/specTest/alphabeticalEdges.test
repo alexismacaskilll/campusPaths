@@ -1,0 +1,19 @@
+# Tests adding edges to a graph in reverse alphabetical order,  first by node name and then in reverse alphabetical order by label, and printing the children out in alphabetical order.
+
+# Create a graph
+CreateGraph graph1
+
+# Add a node to the graph
+AddNode graph1 n1
+# Add a node to the graph
+AddNode graph1 n2
+
+# Add an edge to the graph
+AddEdge graph1 n1 n2 label
+# Add an edge to the graph
+AddEdge graph1 n1 n2 label1
+# Add a self edge to the graph
+AddEdge graph1 n1 n1 label2
+
+# Print the outgoing edges from n1
+ListChildren graph1 n1

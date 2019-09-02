@@ -1,0 +1,12 @@
+# Test the parser on a file that contains 3 heros from different comics
+
+# Load a graph from tsv file that contains 3 heros from different comics
+loaded graph noEdgeGraph
+
+# Print the heros in the graph
+noEdgeGraph contains: hero 1 hero 2 hero 3
+
+# Print the outgoing edges from each hero in the graph
+the children of hero 1 in noEdgeGraph are:
+the children of hero 2 in noEdgeGraph are:
+the children of hero 3 in noEdgeGraph are:

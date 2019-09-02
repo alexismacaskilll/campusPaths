@@ -1,0 +1,18 @@
+# Test the Find Path from src node to dest node where src = dest and node is in the graph.
+
+# Create graph
+CreateGraph simpleGraph
+
+# Add nodes to the graph
+AddNode simpleGraph A
+AddNode simpleGraph B
+AddNode simpleGraph C
+AddNode simpleGraph D
+
+# Add edges to the graph
+AddEdge simpleGraph A C 10.0
+AddEdge simpleGraph A B 1.0
+AddEdge simpleGraph B C 2.0
+
+# Find shortest path from A to A
+FindPath simpleGraph A A

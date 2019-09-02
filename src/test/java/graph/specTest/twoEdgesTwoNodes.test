@@ -1,0 +1,19 @@
+# Tests that a two edges can be added to a graph of two nodes
+
+# Create a graph
+CreateGraph graph1
+
+# Add a node to the graph
+AddNode graph1 n1
+# Add a node to the graph
+AddNode graph1 n2
+
+# Add an edge to the graph
+AddEdge graph1 n1 n2 label1
+# Add an edge to the graph
+AddEdge graph1 n2 n1 label2
+
+# Print the outgoing edges from n1
+ListChildren graph1 n1
+# Print the outgoing edges from n2
+ListChildren graph1 n2

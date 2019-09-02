@@ -1,0 +1,17 @@
+# Tests that a graph can have one node and two edges.
+
+# Create a graph
+created graph graph1
+
+# Add a node to the graph
+added node n1 to graph1
+
+# Add a self edge to the graph
+added edge label1 from n1 to n1 in graph1
+# Add a self edge to the graph
+added edge label2 from n1 to n1 in graph1
+
+# Print the nodes in the graph
+graph1 contains: n1
+# Print the outgoing edges from n1
+the children of n1 in graph1 are: n1(label1) n1(label2)

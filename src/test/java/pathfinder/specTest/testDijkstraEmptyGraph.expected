@@ -1,0 +1,8 @@
+# Test the Find Path on empty graph.
+
+# Create graph
+created graph simpleGraph
+
+# Find shortest path from A to B
+unknown node A
+unknown node B

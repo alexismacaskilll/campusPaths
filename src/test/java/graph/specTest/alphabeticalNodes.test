@@ -1,0 +1,13 @@
+# Tests adding nodes to a graph in reverse alphabetical order by node name and printing the
+# nodes out in alphabetical order.
+
+# Create a graph
+CreateGraph graph1
+
+# Add a node to the graph
+AddNode graph1 n
+# Add a node to the graph
+AddNode graph1 m
+
+# Print the nodes in the graph
+ListNodes graph1

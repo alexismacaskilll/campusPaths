@@ -1,0 +1,13 @@
+# Tests that a graph can have a self-edge, a node who has itself as one of its children
+
+# Create a graph
+created graph graph1
+
+# Add a node to the graph
+added node n1 to graph1
+
+# Add a self edge to the graph
+added edge label from n1 to n1 in graph1
+
+# Print the outgoing edges from n1
+the children of n1 in graph1 are: n1(label)

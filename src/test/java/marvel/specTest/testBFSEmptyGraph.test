@@ -1,0 +1,7 @@
+# Test the parser on a file that is empty
+
+# Load a graph from empty tsv file
+LoadGraph emptyGraph empty.tsv
+
+# Find shortest path from hero1 to hero2
+FindPath emptyGraph hero1 hero2

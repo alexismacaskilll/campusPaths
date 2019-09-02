@@ -1,0 +1,9 @@
+# Test the Find Path with two valid nodes that have no path in the graph
+
+# Load a graph from tsv file that contains two heros in same book and one hero in a
+# different book.
+loaded graph graph1
+
+# Find shortest path from hero 1 to hero 3
+path from hero 1 to hero 3:
+no path found

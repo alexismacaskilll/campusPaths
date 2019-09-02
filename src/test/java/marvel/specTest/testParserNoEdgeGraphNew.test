@@ -1,0 +1,12 @@
+# Test the parser on a file that contains 3 heros from different comics
+
+# Load a graph from tsv file that contains 3 heros from different comics
+LoadGraph noEdgeGraph noEdgesNew.tsv
+
+# Print the heros in the graph
+ListNodes noEdgeGraph
+
+# Print the outgoing edges from each hero in the graph
+ListChildren noEdgeGraph hero_1
+ListChildren noEdgeGraph hero_2
+ListChildren noEdgeGraph hero_3

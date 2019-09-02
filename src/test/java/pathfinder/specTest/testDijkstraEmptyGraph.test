@@ -1,0 +1,7 @@
+# Test the Find Path on empty graph.
+
+# Create graph
+CreateGraph simpleGraph
+
+# Find shortest path from A to B
+FindPath simpleGraph A B

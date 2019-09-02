@@ -1,0 +1,7 @@
+# Tests that a graph is empty when it is created
+
+# Create a graph
+created graph emptyGraph
+
+# Print the nodes in the graph
+emptyGraph contains:

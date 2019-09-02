@@ -1,0 +1,25 @@
+# Tests creating a two-node complete graph, a graph that has an edge from every vertex to every
+# other vertex, and every vertex has self edges.
+
+# Create a graph
+created graph graph1
+
+# Add a node to the graph
+added node n1 to graph1
+# Add a node to the graph
+added node n2 to graph1
+
+# Add a self edge to the graph
+added edge label1 from n1 to n1 in graph1
+# Add an edge to the graph
+added edge label2 from n1 to n2 in graph1
+
+# Add an edge to the graph
+added edge label3 from n2 to n1 in graph1
+# Add a self edge to the graph
+added edge label4 from n2 to n2 in graph1
+
+# Print the outgoing edges from n1
+the children of n1 in graph1 are: n1(label1) n2(label2)
+# Print the outgoing edges from n2
+the children of n2 in graph1 are: n1(label3) n2(label4)

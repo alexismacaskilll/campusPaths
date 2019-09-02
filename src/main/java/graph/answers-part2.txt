@@ -1,0 +1,97 @@
+CSE 331 Homework.  Answers to written questions.
+Edit this file to supply your answers.
+
+Name:  <Alexis Macaskill>
+
+Problem 1.
+a.
+Collection of edges:
+    Advantage: The space collection of an edge collection is O(E), where E is the number of edges.
+    Disadvantage: A collection of edges must represent every edge in the graph and since there
+    is no particular ordering to the edges, in order to find if an edge exists, you have to iterate
+    through this possibly huge collection of edges, and maybe even through the entire collection if
+    it doesn't exist. Doing this work would take linear O(E) time where E is the number of edges in
+    the graph.
+
+Adjacency List:
+    Advantage: Getting all of a nodes's out-bound edges (children) is O(d) where d is the out-degree
+    of the node.
+    Disadvantage: Getting all of a nodes in-bound edges (parent nodes) is O(|N|+|E|), where N is the number
+    of nodes and E is the number of edges, assuming you do not keep a second adjacency list for the in edges.
+
+Adjacency matrix:
+    Advantage: deciding if an edge exists / inserting edge / deleting edge is O(1) WORST case.
+    Disadvantage: The space complexity is O(N^2), where N is the number of nodes.
+
+b.
+
+I chose to implement my graph as an adjacency list using a HashMap where the keys in the map are
+all the nodes in the graph and each node maps to a HashSet<DirectedLabeledEdge> that contains all
+of that node's out-bound edges. I used an adjacency list because eventually this graph will be used
+for finding paths between buildings at UW, and the adjacency list has the best runtime complexity
+for finding the outgoing edges from that node (advantage from part a), which is crucial in a path
+finding algorithm. Also I use a map with a hashSet instead of a typical adjacency list that uses
+an Array or ArrayList of LinkedLists of because search for HashSets and HashMaps have O(1) while
+arrayLists and linked lists have O(N) for their average runtime complexity for search, which will
+also be  important for building the graph and path finding algorithms.
+
+4.
+
+Specification Changes:
+
+I changed the specification of the addNode method description from “adds n to this.nodes” to “adds n
+to this.nodes, if it is not already present” because the client should know the method won’t add
+duplicate nodes, but since the spec requires n needs to be present in this.nodes, I don’t need to
+specify what I do if the client passes in a duplicate node. I also made this change for addEdge.
+I also made this change for removeNode and removeEdge, but with "if it is already present” instead
+of “if it is not already present."
+
+I changed removeNode and removeEdge to return booleans and changed the specification to reflect that
+change. One reason for this change is so that the return type matches Java’s Set remove return type
+because my specification fields are nodes and edges and I think it will be clearer to the client if
+they get a Boolean whether the removal worked or not.
+
+I changed the DirectedLabeledEdge's specification of the equals method description to clearly define
+what it means for two edges to be equivalent. I did this because it is important to for the client
+to be able to get a general idea of how the equals method is working / what specfield it is using in
+this evaluation so that they can use it in their code correctly.
+
+I also accidentally had a basically duplicate Edge class from an earlier commit that I forgot to
+delete so I deleted this.
+
+Added tests:
+Specification:
+I didn't add or remove any of the specification tests as a result of these specification changes, but
+I did fix a lot of typos in the spec tests so that they passed when I ran them because they didn't work
+at first.
+
+Implementation:
+DirectedLabeledEdgeTest:
+I added a test testToString() to test if the toString method of the edge class returns the correct String.
+I added this test because I implemented a toString method after I realized it would help me fill in the
+test driver class, and then I made the toString method public because I think it is something the client
+would want to use.
+
+DirectedGraphTest:
+- Changed the 0 arg constructor test to check that the graph is empty instead of contains 0 nodes upon construction
+because I think this is more clear what it is checking for.
+- Added testGetNodesConstructor() to test that the getNodes method is equivalent to an empty hashSet upon construction.
+- changed testOneNodeOneRemoveReturn() to have an assertTrue that the remove method returns true instead of assert Equals
+ to check if the remove method returns the correct String because now my remove method doesn't return the node that
+ was removed, but it returns a boolean of whether or not it was removed, also changed all other remove node tests to
+ reflect this change.
+- Changed testOneNodeRemoveEdgeReturn() to have an assertTrue instead of assertEquals for same reason as above because
+the removeEdge also now returns a boolean instead of the edge that was removed, also changed all other remove Edge tests
+to reflect this change.
+- Added testAddOneNodeTwice() to check that addNode returns false if duplicate node is trying to be added. Although the
+addNode @requires the node not already exist, my implementation returns false if this happens so need to check for this.
+- Added testAddTwoNodesOneEdgeTwice() to check that addEdge returns false if duplicate node is trying to be added, for
+same reason as bullet above.
+- Added testTwoNodeTwoEdgeRemovedEdge() to check that the listChildren does not contain duplicate edge when someone tries
+to add duplicate edge because my implementation should not add anything to graph if client passes in duplicate edge.
+- testOneNodeAddEdgeWithoutSrcNode() and testOneNodeAddEdgeWithoutDestNode() to check that addEdge throws illegal Argument
+ exception if edge is trying to be added without either src or dest present. Even though this is in the requires part of
+ spec, my implementation throws an IllegalArgumentException so I added a test for it.
+ - added testRemoveNodeThatDoesntExist() and testRemoveEdgeThatDoesntExist() to test removing a node and an edge that
+ doesn't exists throws an illegal argument exception. I added this because although this case is in @requires, in my
+ implementation I throw an illegal argument exception, so I added tests for it.
